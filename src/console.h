@@ -36,7 +36,7 @@ public:
 	int get_ch_h();
 	void clear();
 	void printxy(int x, int y, std::string text);
-	void writexy(int x, int y, std::string text);
+	void writexy(int x, int y, std::string text, bool back);
 	void blit(int x, int y, SDL_Surface *surface);
 	void flush();
 private:

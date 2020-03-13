@@ -117,6 +117,9 @@ void Console::printxy(int x, int y, std::string text) {
 				if (pixel[0] != 0) {
 					SDL_SetRenderDrawColor(renderer, fg[0], fg[1], fg[2], pixel[0]);
 					SDL_RenderFillRect(renderer, &rect);
+				} else {
+					SDL_SetRenderDrawColor(renderer, bg[0], bg[1], bg[2], 0xff);
+					SDL_RenderFillRect(renderer, &rect);
 				}
 			}
 		i++;
@@ -127,7 +130,7 @@ void Console::printxy(int x, int y, std::string text) {
 	}
 }
 
-void Console::writexy(int x, int y, std::string text) {
+void Console::writexy(int x, int y, std::string text, bool back) {
 	icu::UnicodeString s = icu::UnicodeString::fromUTF8(text);
 	int i = x;
 	for (char n = 0; n < s.length(); n++) {
@@ -145,6 +148,9 @@ void Console::writexy(int x, int y, std::string text) {
 				rect.h = 1;
 				if (pixel[0] != 0) {
 					SDL_SetRenderDrawColor(renderer, fg[0], fg[1], fg[2], pixel[0]);
+					SDL_RenderFillRect(renderer, &rect);
+				} else if (back) {
+					SDL_SetRenderDrawColor(renderer, bg[0], bg[1], bg[2], 0xff);
 					SDL_RenderFillRect(renderer, &rect);
 				}
 			}
