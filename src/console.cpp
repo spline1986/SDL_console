@@ -7,9 +7,9 @@
 
 static void cl_convert(Uint8 *arr, Uint32 color) {
 	Uint8 *p = reinterpret_cast<Uint8*>(&color);
-	arr[0] = p[0];
+	arr[0] = p[2];
 	arr[1] = p[1];
-	arr[2] = p[2];
+	arr[2] = p[0];
 }
 
 Console::Console(std::string title, std::string filename, int w, int h) {

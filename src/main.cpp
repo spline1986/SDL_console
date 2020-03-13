@@ -13,7 +13,7 @@ int main() {
 	int dx = 2, dy = 2;
 	while(!quit) {
 		con->setbg(cl_black);
-		con->setfg(cl_green);
+		con->setfg(cl_yellow);
 		con->clear();
 		con->printxy((con->get_w() - 13) / 2, con->get_h() / 2, "Hello, world!");
 		con->blit(x, y, logo);
