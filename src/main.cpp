@@ -18,10 +18,10 @@ int main() {
 		con->setbg(cl_grey);
 		con->setfg(cl_yellow);
 		con->clear();
-		con->printxy(i, j, "Console write test");
+		con->printxy(i, j, "Консольный вывод");
 		con->setfg(cl_cyan);
 		con->writexy(con->get_w() * con->get_ch_w() - x - 118, con->get_h() * con->get_ch_h() - y - 33,
-					 "Graphical write test", false);
+					 "Графический вывод", false);
 		con->blit(x, y, logo);
 		con->flush();
 		x = x + dx;
