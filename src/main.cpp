@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-	Console *con = new Console("MRLG", "data/font.png", 80, 25);
+	Console *con = new Console("Console Demo", "data/font.png", 80, 25);
 	bool quit = false;
 	SDL_Event e;
 	SDL_Surface *logo = IMG_Load("data/spline.png");
