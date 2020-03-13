@@ -127,6 +127,31 @@ void Console::printxy(int x, int y, std::string text) {
 	}
 }
 
+void Console::writexy(int x, int y, std::string text) {
+	icu::UnicodeString s = icu::UnicodeString::fromUTF8(text);
+	int i = x;
+	for (char n = 0; n < s.length(); n++) {
+		int x1 = (s[n] % 16) * ch_width;
+		int y1 = (s[n] / 16) * ch_height;
+		for (int x2 = 0; x2 < ch_width; x2++)
+			for (int y2 = 0; y2 < ch_height; y2++) {
+				Uint8 *pixel = reinterpret_cast<Uint8*>(font->pixels) +
+							   (y1 + y2) * font->pitch + (x1 + x2) *
+							   font->format->BytesPerPixel;
+				SDL_Rect rect;
+				rect.x = i + x2;
+				rect.y = y + y2;
+				rect.w = 1;
+				rect.h = 1;
+				if (pixel[0] != 0) {
+					SDL_SetRenderDrawColor(renderer, fg[0], fg[1], fg[2], pixel[0]);
+					SDL_RenderFillRect(renderer, &rect);
+				}
+			}
+		i = i + ch_width;
+	}
+}
+
 void Console::blit(int x, int y, SDL_Surface *surface) {
 	SDL_Texture* texture = nullptr;
 	SDL_Rect rect;
