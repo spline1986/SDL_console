@@ -27,7 +27,7 @@ class Console {
 public:
 	Console(std::string title, std::string filename, int w, int h);
 	~Console();
-	void set_charset();
+	void set_wide_ascii();
 	void setfg(Uint32 color);
 	void setbg(Uint32 color);
 	int get_w();
@@ -51,4 +51,5 @@ private:
 	SDL_Renderer *renderer = nullptr;
 	SDL_Surface *font = nullptr;
 	void load_font(std::string filename);
+	int get_char_index(unsigned int c);
 };

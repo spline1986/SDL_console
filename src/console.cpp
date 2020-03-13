@@ -33,6 +33,7 @@ Console::Console(std::string title, std::string filename, int w, int h) {
 		}
 	}
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	set_wide_ascii();
 	width = w;
 	height = h;
 	x = 0;
@@ -45,9 +46,15 @@ Console::~Console() {
 	SDL_Quit();
 }
 
-void Console::set_charset() {
-	for (unsigned int i=0; i < 128; i++)
+void Console::set_wide_ascii() {
+	for (unsigned int i = 0; i < 128; i++)
 		chars[i] = i;
+	for (unsigned int i = 128; i < 176; i++)
+		chars[i] = 912 + i;
+	for (unsigned int i = 224; i < 240; i++)
+		chars[i] = 864 + i;
+	chars[241] = 1025;
+	chars[242] = 1105;
 }
 
 void Console::load_font(std::string filename) {
@@ -59,6 +66,13 @@ void Console::load_font(std::string filename) {
 		ch_width = font->w / 16;
 		ch_height = font->h / 16;
 	}
+}
+
+int Console::get_char_index(unsigned int c) {
+	for (int i = 0; i < 256; i++)
+		if (chars[i] == c)
+			return i;
+	return -1;
 }
 
 void Console::setbg(Uint32 color) {
@@ -102,8 +116,9 @@ void Console::printxy(int x, int y, std::string text) {
 	int i = x;
 	int j = y;
 	for (char n = 0; n < s.length(); n++) {
-		int x1 = (s[n] % 16) * ch_width;
-		int y1 = (s[n] / 16) * ch_height;
+		int c = get_char_index(s[n]);
+		int x1 = (c % 16) * ch_width;
+		int y1 = (c / 16) * ch_height;
 		for (int x2 = 0; x2 < ch_width; x2++)
 			for (int y2 = 0; y2 < ch_height; y2++) {
 				Uint8 *pixel = reinterpret_cast<Uint8*>(font->pixels) +
@@ -134,8 +149,9 @@ void Console::writexy(int x, int y, std::string text, bool back) {
 	icu::UnicodeString s = icu::UnicodeString::fromUTF8(text);
 	int i = x;
 	for (char n = 0; n < s.length(); n++) {
-		int x1 = (s[n] % 16) * ch_width;
-		int y1 = (s[n] / 16) * ch_height;
+		int c = get_char_index(s[n]);
+		int x1 = (c % 16) * ch_width;
+		int y1 = (c / 16) * ch_height;
 		for (int x2 = 0; x2 < ch_width; x2++)
 			for (int y2 = 0; y2 < ch_height; y2++) {
 				Uint8 *pixel = reinterpret_cast<Uint8*>(font->pixels) +
