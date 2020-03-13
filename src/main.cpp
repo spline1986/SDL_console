@@ -12,10 +12,13 @@ int main() {
 	int x = 0, y = 0;
 	int dx = 2, dy = 2;
 	while(!quit) {
-		con->setbg(cl_black);
+		con->setbg(cl_grey);
 		con->setfg(cl_yellow);
 		con->clear();
-		con->printxy((con->get_w() - 13) / 2, con->get_h() / 2, "Hello, world!");
+		con->printxy((con->get_w() - 18) / 2, con->get_h() / 2, "Console write test");
+		con->setfg(cl_cyan);
+		con->writexy(con->get_w() * con->get_ch_w() - x - 118, con->get_h() * con->get_ch_h() - y - 33,
+					 "Graphical write test");
 		con->blit(x, y, logo);
 		con->flush();
 		x = x + dx;
